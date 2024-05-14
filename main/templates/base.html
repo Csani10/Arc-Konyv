@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArcKönyv</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+    <nav class="navbar">
+        <ul>
+            <span class="logo"><a href="">ArcKönyv</a></span>
+            {% block navbar %}
+            {% endblock %}
+        </ul>
+    </nav>
+    <style>
+        body {
+            background-color: blue;
+        }
+        .navbar {
+            background-color: darkblue;
+            box-sizing: border-box;
+        }
+        .logo a {
+            text-decoration: none;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-decoration: none;
+            font-size: 30px;
+            text-align: center;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        .logo a:hover {
+            background-color: rgb(0, 0, 179);
+        }
+        .logo a:active {
+            background-color: rgb(0, 0, 50);
+        }
+    </style>
+    {% block content %}
+    Nincs itt semmi
+    {% endblock %}
+</body>
+</html>

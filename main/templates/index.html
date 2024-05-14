@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Főoldal</h2>
+<div class="formdiv">
+    <form>
+        <li><input name="username" placeholder="Felhasználónév" type="text"></li>
+        <li><input name="email" placeholder="*Email cím" type="email"></li>
+        <li><input name="password" type="password" placeholder="*Jelszó"></li>
+        <li><button name="login">Bejelentkezés</button></li>
+        <li><button name="register">Regisztráció</button></li>
+    </form>
+</div>
+<style>
+    h2 {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .formdiv {
+        background-color: darkblue;
+        width: fit-content;
+        justify-self: right;
+        align-content: center;
+    }
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+    li {
+        list-style-type: none;
+    }
+    button {
+        font-size: 20px;
+        margin: 10px;
+        position: relative;
+    }
+    input {
+        font-size: 20px;
+        margin: 10px;
+    }
+</style>
+{% endblock %}
