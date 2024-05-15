@@ -1,10 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Főoldal</h2>
+<h2>Bejelentkezés</h2>
 <div class="formdiv">
-    <form>
+    <form method="GET">
+        <li><input name="username" placeholder="Felhasználónév" type="text"></li>
+        <li><input name="password" type="password" placeholder="Jelszó"></li>
         <li><button name="login">Bejelentkezés</button></li>
-        <li><button name="register">Regisztráció</button></li>
     </form>
 </div>
 <style>

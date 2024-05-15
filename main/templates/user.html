@@ -1,8 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
 <h2>Felhasználó</h2>
-{{ neve }}
+<h2>{{ full_name }}</h2>
+<h4>@{{ user_name }}</h4>
+{% if is_local %}
 <form>
     <button name="logout">Kijelentkezés</button>
 </form>
+{% endif %}
 {% endblock %}

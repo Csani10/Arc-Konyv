@@ -7,36 +7,57 @@ import hashlib
 # Create your views here.
 def index(request):
     if "register" in request.GET:
-        #us = models.User()
-        #us.email = request.GET.get("email")
-        #us.username = request.GET.get("username")
-        #us.password = hashlib.sha256(request.GET.get("password").encode("utf-8")).hexdigest()
-        #print(us.password)
-        #us.save()
-        user = User.objects.create_user(request.GET.get("username"), request.GET.get("email"), request.GET.get("password"))
-        user.save()
+        return redirect("register/")
     elif "login" in request.GET:
-        user = auth.authenticate(request, username=request.GET.get("username"), password=request.GET.get("password"))
-        if user is not None:
-            auth.login(request, user)
-            print("igen")
-            return redirect("user/")
-        else:
-            messages.error(request, "Invalid username or password")
-            return redirect("/")
-
+        return redirect("login/")
 
     return render(request, "index.html")
+
+def login(request):
+    if "login" in request.GET:
+        usr = auth.authenticate(username=request.GET.get("username"), password=request.GET.get("password"))
+        if usr is not None:
+            auth.login(request, usr)
+            return redirect("/user/")
+        else:
+            messages.error(request, "Hibás felhasználónév vagy jelszó!")
+    
+    return render(request, "login.html")
+
+def register(request):
+    if "register" in request.GET:
+        user = User.objects.create_user(request.GET.get("username"), request.GET.get("email"), request.GET.get("password"))
+        user.first_name = request.GET.get("first_name")
+        user.last_name = request.GET.get("last_name")
+        user.save()
+        if user:
+            auth.login(request, user)
+            return redirect("/user/")
+    
+    return render(request, "register.html")
 
 def user(request):
     if "logout" in request.GET:
         auth.logout(request)
-    usr = auth.get_user(request)
-    print(usr.username)
-    print(usr.is_anonymous)
-    if usr.is_anonymous:
         return redirect("/")
-    return render(request, "user.html", {"neve": usr.username})
+    usr = None
+    user = None
+    localuser = False
+    if "id" in request.GET:
+        user = User.objects.get(id=request.GET.get("id"))
+    else:
+        usr = auth.get_user(request)
+        try:
+            user = User.objects.get_by_natural_key(usr.username)
+        except:
+            pass
+        print(usr.username)
+        print(usr.is_anonymous)
+        print(usr.id)
+        localuser = True
+        if usr.is_anonymous:
+            return redirect("/")
+    return render(request, "user.html", {"full_name": user.first_name + " " + user.last_name, "user_name": user.username, "is_local": localuser})
 
 def test(request):
     return render(request, "base.html")
