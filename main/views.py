@@ -37,9 +37,21 @@ def register(request):
     return render(request, "register.html")
 
 def user(request):
+    if "delete" in request.GET:
+        post = models.Posts.objects.get(post=request.GET.get("text"), id=request.GET.get("id"))
+        post.delete()
+        return redirect("/user/")
+    
     if "logout" in request.GET:
         auth.logout(request)
         return redirect("/")
+    
+    if "postbtn" in request.GET:
+        usr = auth.get_user(request)
+        post = models.Posts(username=usr.username, post=request.GET.get("post"))
+        post.save()
+        return redirect("/user/")
+
     usr = None
     user = None
     localuser = False
@@ -57,7 +69,11 @@ def user(request):
         localuser = True
         if usr.is_anonymous:
             return redirect("/")
-    return render(request, "user.html", {"full_name": user.first_name + " " + user.last_name, "user_name": user.username, "is_local": localuser})
+    
+    posts = models.Posts.objects.filter(
+        username=user.username
+    ).reverse()
+    return render(request, "user.html", {"full_name": user.first_name + " " + user.last_name, "user_name": user.username, "is_local": localuser, "posts": posts})
 
 def test(request):
     return render(request, "base.html")

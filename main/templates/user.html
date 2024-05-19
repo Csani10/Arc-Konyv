@@ -1,11 +1,33 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Felhasználó</h2>
-<h2>{{ full_name }}</h2>
-<h4>@{{ user_name }}</h4>
-{% if is_local %}
-<form>
-    <button name="logout">Kijelentkezés</button>
-</form>
-{% endif %}
+    <h2>Felhasználó</h2>
+    <h2>{{ full_name }}</h2>
+    <h4>@{{ user_name }}</h4>
+    {% if is_local %}
+        <form method="get">
+            {% csrf_token %}
+            <textarea name="post"></textarea>
+            <button name="postbtn">Jegyzés</button>
+        </form>
+        <form>
+            <button name="logout">Kijelentkezés</button>
+        </form>
+    {% endif %}
+    {% if posts is not None %}
+        {% for post in posts %}
+        <div style="background-color: darkblue; padding-bottom: 8px; padding-top: 8px; box-sizing: content-box;">
+            <p style="color: white;">{{ post.post }}</p>
+            <p style="color: white;">{{ post.timestamp }}</p>
+            {% if is_local %}
+                <form method="get">
+                    <textarea name="text" style="visibility: hidden;">{{ post.post }}</textarea>
+                    <textarea name="id" style="visibility: hidden;">{{ post.id }}</textarea>
+                    <button name="delete" >Törlés</button>
+                </form>
+            {% endif %}
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>Nincsenek posztok</p>
+    {% endif %}
 {% endblock %}
