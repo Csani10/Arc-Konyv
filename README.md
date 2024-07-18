@@ -1,7 +1,7 @@
 # Arc Könyv
 
 ## English
-A facebook copy with django and python
+A facebook copy made with django and python
 
 ## Magyar
 Egy facebook másolat django és pythonnal
