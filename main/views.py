@@ -72,8 +72,9 @@ def user(request):
     
     posts = models.Posts.objects.filter(
         username=user.username
-    ).reverse()
-    return render(request, "user.html", {"full_name": user.first_name + " " + user.last_name, "user_name": user.username, "is_local": localuser, "posts": posts})
+    )
+    
+    return render(request, "user.html", {"full_name": user.first_name + " " + user.last_name, "user_name": user.username, "is_local": localuser, "email": user.email, "posts": posts[::-1]})
 
 def test(request):
     return render(request, "base.html")
